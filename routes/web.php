@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('pages', 'PagesController@home');
+Route::get('pages', 'PagesController@index');
 
 Route::resource('tasks', 'TasksController');
