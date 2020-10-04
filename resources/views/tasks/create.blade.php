@@ -4,6 +4,25 @@
 
 <h1>Add a New Task</h1>
 <p class="lead">Add to your task list below.</p>
+
+<!--Start Validate, showing Error and Success -->
+
+@if (Session::has('flash_message'))
+    <div class="alert alert-success">
+        {{ Session::get('flash_message') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
+
+<!--End Validate, showing Error and Success -->
+
 <hr>
 
 {!! Form::open([
