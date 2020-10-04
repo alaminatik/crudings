@@ -15,7 +15,8 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return view('tasks.index');
+        $tasks = Task::all();
+        return view('tasks.index')->with('tasks',$tasks);
     }
 
     /**
@@ -58,7 +59,8 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        //
+        $task = Task::find($id);
+        return view('tasks.show')->with('task',$task);
     }
 
     /**
@@ -69,7 +71,8 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::find($id);
+        return view('tasks.edit')->with('task',$task);
     }
 
     /**
@@ -81,7 +84,20 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::find($id);
+
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        $task->fill($input)->save();
+
+        Session::flash('flash_message', 'Task successfully updated!');
+
+        return redirect()->back();
     }
 
     /**
@@ -92,6 +108,12 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+
+        $task->delete();
+    
+        Session::flash('flash_message', 'Task deleted!');
+    
+        return redirect()->route('tasks.index');
     }
 }
